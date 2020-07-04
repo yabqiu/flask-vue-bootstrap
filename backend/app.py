@@ -9,6 +9,33 @@ app.config.from_object(__name__)
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 
+BOOKS = [
+    {
+        'title': 'Software Telemetry',
+        'author': 'Jamie Riedesel',
+        'read': True
+    },
+    {
+        'title': 'Grokking Streaming Systems',
+        'author': 'Josh Fischer and Ning Wang',
+        'read': False
+    },
+    {
+        'title': 'Rust in Action',
+        'author': 'Tim McNamara',
+        'read': True
+    }
+]
+
+
+@app.route('/api/books', methods=['GET'])
+def all_books():
+    return jsonify({
+        'status': 'success',
+        'books': BOOKS
+        })
+
+
 @app.route('/api/ping', methods=['GET'])
 def ping_pong():
     return jsonify('pong!')
@@ -16,7 +43,7 @@ def ping_pong():
 
 @app.route('/')
 def index():
-    return app.send_static_file('/index.html')
+    return app.send_static_file('index.html')
 
 
 @app.route("/<path:fallback>")
